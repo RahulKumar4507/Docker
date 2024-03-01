@@ -1,0 +1,24 @@
+services:
+  db:
+   build:
+    context: .
+    dockerfile: Dockerfile
+   volumes:
+     - mybackup:/var/lib/mysql
+  wordpress:
+    image: wordpress
+    ports:
+      - 80:80
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: Pass@123
+      WORDPRESS_DB_NAME: mydb
+    volumes:
+        - wpdata:/var/www/html/wp-content
+
+volumes:
+  mybackup:
+  wpdata:
